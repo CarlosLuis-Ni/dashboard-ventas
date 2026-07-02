@@ -307,10 +307,10 @@
       <div class="card" style="overflow:auto">
         <div class="card-title" style="margin-bottom:18px">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-          Cumplimiento de Metas por Línea · Junio 2026
+          Cumplimiento de Metas por Línea · <span id="label-mes-metas">—</span>
         </div>
         <p style="font-size:12px;color:var(--muted);margin-bottom:14px">
-          ⚠️ Junio está en curso — los porcentajes reflejan el avance hasta la fecha de actualización.
+          ⚠️ <span id="label-mes-en-curso">—</span> está en curso — los porcentajes reflejan el avance hasta la fecha de actualización.
         </p>
         <table class="metas-table">
           <thead>
@@ -731,6 +731,8 @@ function renderDashboard(){
   document.getElementById('label-acumulado').textContent     = `Acumulado ${mo.acumulado}`;
   document.getElementById('label-tendencia').textContent     = `Tendencia de Ventas · Enero – ${mo.nombre} ${mo.anio}`;
   document.getElementById('label-top-productos').textContent = `Top 5 Productos · Acumulado ${mo.anio}`;
+  document.getElementById('label-mes-metas').textContent     = `${mo.nombre} ${mo.anio}`;
+  document.getElementById('label-mes-en-curso').textContent  = mo.nombre;
 
   // KPIs
   const pct = d.pct_junio;
@@ -1050,8 +1052,9 @@ function parseFechaFact(str){
 function renderFacturasTabla(){
   const lista = FACTURAS_DB[currentUser] || [];
   const busqueda = (document.getElementById('facturas-search')?.value || '').toLowerCase().trim();
-  const hoy = new Date();
-  hoy.setHours(0,0,0,0);
+  const ahora = new Date();
+  const hoy = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate());
+  const manana = new Date(hoy); manana.setDate(hoy.getDate() + 1);
 
   // Inicio de semana (lunes)
   const inicioSemana = new Date(hoy);
@@ -1064,7 +1067,8 @@ function renderFacturasTabla(){
     const fechaFact = parseFechaFact(f.fecha);
 
     // Filtro de tiempo
-    if(facturasFiltroTiempo === 'hoy' && fechaFact < hoy) return false;
+    // "Hoy": fechaFact >= inicio del día actual Y < inicio de mañana
+    if(facturasFiltroTiempo === 'hoy' && (fechaFact < hoy || fechaFact >= manana)) return false;
     if(facturasFiltroTiempo === 'semana' && fechaFact < inicioSemana) return false;
     if(facturasFiltroTiempo === 'mes' && fechaFact < inicioMes) return false;
     if(facturasFiltroTiempo === '30dias'){
