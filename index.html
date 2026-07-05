@@ -367,9 +367,9 @@
           <thead>
             <tr>
               <th>Cliente</th>
-              <th>Última compra</th>
-              <th>Días sin comprar</th>
-              <th>Facturas</th>
+              <th style="text-align:center">Última compra</th>
+              <th style="text-align:center">Días sin comprar</th>
+              <th style="text-align:center">Facturas</th>
               <th>Total comprado</th>
               <th>Estado</th>
             </tr>
@@ -1008,9 +1008,9 @@ function renderClientesTabla(){
   tbody.innerHTML = lista.map(cl => `
     <tr>
       <td style="font-weight:600">${cl.nombre}${cl.frecuente?' ⭐':''}</td>
-      <td>${cl.ultima_compra}</td>
-      <td>${cl.dias_sin_comprar}</td>
-      <td>${cl.num_facturas}</td>
+      <td style="text-align:center">${cl.ultima_compra}</td>
+      <td style="text-align:center">${cl.dias_sin_comprar}</td>
+      <td style="text-align:center">${cl.num_facturas}</td>
       <td>${fmt(cl.total_comprado)}</td>
       <td><span class="seg-pill ${SEGMENTO_PILL[cl.segmento]}">${cl.segmento}</span></td>
     </tr>
