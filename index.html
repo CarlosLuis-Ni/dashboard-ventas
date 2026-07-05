@@ -549,7 +549,7 @@ let chartHist = null, chartProd = null, leafletMap = null;
 // ══════════════════════════════════════════
 // HELPERS
 // ══════════════════════════════════════════
-const fmt = n => new Intl.NumberFormat('es-NI',{style:'currency',currency:'NIO',maximumFractionDigits:0}).format(n);
+const fmt = n => 'C$' + Math.round(n).toLocaleString('en-US');
 const fmtShort = n => n >= 1000000 ? 'C$'+(n/1000000).toFixed(1)+'M' : n >= 1000 ? 'C$'+(n/1000).toFixed(0)+'k' : fmt(n);
 
 function pctColor(p){ if(p>=80) return '#2E7D5B'; if(p>=40) return '#B8860B'; return '#B14A3C'; }
